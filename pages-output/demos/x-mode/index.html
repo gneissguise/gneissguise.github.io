@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>90s VGA Demoscene</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+      touch-action: manipulation;
+      /* Prevent double-tap zoom on mobile */
+      height: 98vh;
+    }
+
+    canvas {
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .demo-button {
+      transition: all 0.1s ease-in-out;
+      border-bottom-width: 4px;
+    }
+
+    .demo-button:active {
+      transform: translateY(2px);
+      border-bottom-width: 2px;
+    }
+
+    .demo-button.active {
+      background-color: #f59e0b;
+      border-color: #b45309;
+      color: #fff;
+    }
+
+    .gradient-text {
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .bigfoot-logo {
+      background-image: linear-gradient(to bottom, #1687b1 18%, #e2e2e2, #a46e2c, #fcee6c);
+    }
+
+    .author-text {
+      background-image: linear-gradient(120deg, #f72585, #7209b7, #3a0ca3, #f48c06);
+    }
+
+    .author-pop::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      
+      /* Apply the same gradient */
+      background-image: linear-gradient(120deg, #f72585, #7209b7, #3a0ca3, #f48c06);
+      
+      /* The glow effect */
+      filter: blur(5px) brightness(1.6);
+      opacity: 0.8;
+      transition: 0.5s
+  }
+
+  .author-pop:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    /* Apply the same gradient */
+    background-image: linear-gradient(120deg, #f72585, #7209b7, #3a0ca3, #f48c06);
+    
+    /* The glow effect */
+    filter: blur(7px) brightness(3.5);
+    opacity: 0.95;
+    transition: 0.5s
+  }
+
+  .beveled-border {
+    padding: 5px;
+    background-image: linear-gradient(45deg, #33373a, #a5b1b6, #33373a);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  </style>
+</head>
+
+<body class="bg-zinc-900 text-gray-200 flex flex-col items-center justify-center">
+  <div class="w-full max-w-5xl mx-auto p-4 flex flex-col h-full">
+    <header class="text-center mb-4">
+      <h1 class="text-2xl md:text-4xl font-bold gradient-text bigfoot-logo bg-clip-text text-transparent py-2">
+        <a href="https://en.wikipedia.org/wiki/Mode_X" target="_blank" rel="noopener noreferrer" title="Learn more about Mode X (opens in new tab)">MODE-X<span class="sr-only">(opens in new tab)</span></a>
+        <a href="https://en.wikipedia.org/wiki/Video_Graphics_Array" target="_blank" rel="noopener noreferrer" title="Learn more about Video Graphics Array (opens in new tab)">VGA<span class="sr-only">(opens in new tab)</span></a>
+        <a href="https://demoscene.assembly.org/" target="_blank" rel="noopener noreferrer" title="Explore the Demoscene on Assembly.org (opens in new tab)">DEMOSCENES<span class="sr-only">(opens in new tab)</span></a>
+      </h1>
+        <p class="text-sm text-gray-400">
+          Simulated in JavaScript by
+          <a href="https://github.com/gneissguise"
+            class="relative font-black gradient-text author-text author-pop" 
+            data-text="Justin Greisiger Frost"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Justin Greisiger Frost (opens in new GitHub tab)"
+            title="View Justin Greisiger Frost's profile on GitHub (opens in new tab)">
+            Justin Greisiger Frost
+            <!--
+              Note: Using aria-label here to append "(opens in new GitHub tab)"
+              because the link text itself is already descriptive.
+              Alternatively, a nested sr-only span could be used if you prefer
+              the aria-label to exactly match data-text or the visible text.
+              For this specific case, as data-text is identical to the visible text,
+              an aria-label is a concise way to add the new tab information.
+            -->
+          </a>    
+        </p>
+    </header>
+
+    <div class="">
+      <main class="flex-grow w-full h-64 md:h-auto rounded-lg beveled-border overflow-hidden">
+        <canvas id="demo-canvas" role="img" aria-label="VGA Demostration Output" title="VGA Demostration Output">
+          Your browser does not support the HTML5 canvas element, or JavaScript is disabled. This experience relies on canvas for visual demonstrations.
+        </canvas>
+      </main>
+    </div>
+
+    <footer class="w-full mt-4">
+      <div id="controls" class="grid grid-cols-5 md:grid-cols-10 gap-2" aria-label="Demo selection controls">
+        <!-- Buttons will be generated by JS -->
+      </div>
+      <p class="text-center text-xs text-gray-500 mt-2">Use keys 0-9 or click buttons to switch demos.</p>
+    </footer>
+  </div>
+
+  <script src="scripts/main.js" defer></script>
+</body>
+
+</html>
