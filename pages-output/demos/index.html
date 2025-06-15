@@ -7,6 +7,7 @@
 
 
   <meta name="description" content="Demos of various projects I have worked on.">
+  <meta name="keywords" content="demos, projects, portfolio, Justin Frost, software, VGA, X-Mode, JavaScript">
 
   <meta property="og:description" content="Demos of various projects I have worked on.">
 
@@ -18,16 +19,16 @@
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Oxygen:300,400,700|Inconsolata"
     rel="stylesheet">
-  <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
-  <link href="/css/blog.css" rel="stylesheet" type="text/css" />
-  <link href="/css/lotus-highlightjs.min.css" rel="stylesheet" type="text/css" />
+  <link href="/css/normalize.css" rel="stylesheet" />
+  <link href="/css/blog.css" rel="stylesheet" />
+  <link href="/css/lotus-highlightjs.min.css" rel="stylesheet" />
 </head>
 
 <body>
   <aside id="sidebar">
     <div id="logo">
-      <a title="Justin Frost" href="/">
-        <img class="icon" src="/img/jfrost.jpg">
+      <a href="/">
+        <img class="icon" src="/img/jfrost.jpg" alt="Justin Frost's profile picture">
         <div class="text desktop-and-tablet-only">Justin Frost</div>
         <div class="text mobile-only">Justin Frost</div>
       </a>
@@ -42,21 +43,19 @@
           </svg><span class="menu-text">Menu</span>
         </label>
         <ul class="menu">
-          <li><a title="Home" href="/">
+          <li><a href="/">
               <div class="menu-item-text">Home</div>
             </a></li>
-          <li><a title="Archives" href="/archives/">
-              <div class="menu-item-text">Archives</div>
-            </a></li>
 
 
-          <li class="active">
+
+          <li>
             <a href="/pages-output/about/">
               <div class="menu-item-text">About Me</div>
             </a>
           </li>
 
-          <li>
+          <li class="active">
             <a href="/pages-output/demos/">
               <div class="menu-item-text">Demos</div>
             </a>
@@ -68,11 +67,11 @@
 
       <nav id="socialmedia">
         <ul>
-          <li><a title="LinkedIn" href="https://www.linkedin.com/in/justin-greisiger-frost" rel="external" target="_blank"><svg
+          <li><a title="LinkedIn" href="https://www.linkedin.com/in/justin-greisiger-frost" rel="external noopener noreferrer" target="_blank"><svg
                 class="icon icon-linkedin">
                 <use xlink:href="/img/icons.svg#icon-linkedin"></use>
               </svg></a></li>
-          <li><a title="GitHub" href="https://github.com/gneissguise" rel="external" target="_blank"><svg
+          <li><a title="GitHub" href="https://github.com/gneissguise" rel="external noopener noreferrer" target="_blank"><svg
                 class="icon icon-github-circled">
                 <use xlink:href="/img/icons.svg#icon-github-circled"></use>
               </svg></a></li>
@@ -91,7 +90,7 @@
         <h1>My Demos</h1>
       </div>
 
-      <h2 id="this-is-who-i-am">Demonstrations of projects I have worked on:</h2>
+      <h2 id="this-is-who-i-am">Projects that I have worked on:</h2>
       <ul>
         <li><a href="/pages-output/demos/x-mode" target="_blank" rel="noopener noreferrer">1990's Style VGA Demos</a> - Simulating the X-Mode graphics capabilities of DOS in modern JavaScript and Canvas .</li>
       </ul>
@@ -109,13 +108,13 @@
     </div>
 
     <hr />
-    <div id="footercont">
-      Copyright &copy; 2025 Justin Greisiger Frost
-      <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
-    </div>
+    <footer id="footercont">
+      Copyright &copy; 2021-2025 Justin Greisiger Frost
+      <br>Powered by <a href="http://cryogenweb.org" rel="external noopener noreferrer" target="_blank">Cryogen</a>
+    </footer>
   </article>
 
-  <script src="/js/highlight.pack.js" type="application/javascript"></script>
+  <script src="/js/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
 
