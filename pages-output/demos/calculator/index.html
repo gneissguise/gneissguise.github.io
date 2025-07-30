@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONLogic Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/json-logic-js@2.0.5/logic.min.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        /**
+         * @function calculator
+         * @description Provides the data object for the Alpine.js component.
+         * This function is defined globally and is available for Alpine to use
+         * when it initializes the component in the HTML body.
+         */
+        function calculator() {
+            return {
+                // The value currently shown on the calculator's main display.
+                display: '0',
+                // A string representing the calculation history or previous value.
+                history: '',
+                // The operator that has been selected (+, -, *, /).
+                currentOperator: null,
+                // Stores the first number in an operation.
+                previousValue: null,
+                // A flag to see if we should start typing a new number after an operator is pressed.
+                waitingForOperand: false,
+
+                /**
+                 * @method input
+                 * @param {string} num - The number or decimal point to add to the display.
+                 * @description Handles the input of digits and the decimal point.
+                 */
+                input(num) {
+                    if (this.display.length >= 15 && !this.waitingForOperand) return;
+                    
+                    if (this.waitingForOperand) {
+                        this.display = num;
+                        this.waitingForOperand = false;
+                    } else {
+                        if (num === '.' && this.display.includes('.')) return;
+                        this.display = this.display === '0' && num !== '.' ? num : this.display + num;
+                    }
+                },
+
+                /**
+                 * @method operator
+                 * @param {string} op - The operator symbol (+, -, *, /).
+                 * @description Sets the operator for the calculation. If a previous
+                 * calculation is pending, it executes it first.
+                 */
+                operator(op) {
+                    if (this.waitingForOperand && this.previousValue !== null) {
+                        this.currentOperator = op;
+                        this.history = `${this.previousValue} ${this.getDisplayOperator(op)}`;
+                        return;
+                    }
+
+                    if (this.currentOperator && !this.waitingForOperand) {
+                        this.equals();
+                    }
+                    
+                    this.previousValue = this.display;
+                    this.currentOperator = op;
+                    this.history = `${this.previousValue} ${this.getDisplayOperator(op)}`;
+                    this.waitingForOperand = true;
+                },
+
+                /**
+                 * @method equals
+                 * @description Performs the calculation using JSONLogic.
+                 */
+                equals() {
+                    if (!this.currentOperator || this.previousValue === null) return;
+
+                    const currentVal = parseFloat(this.display);
+                    const previousVal = parseFloat(this.previousValue);
+                    const rule = { [this.currentOperator]: [previousVal, currentVal] };
+
+                    // This call is now safe. The synchronous script loading order guarantees
+                    // that the global 'jsonLogic' object exists before this code is ever executed.
+                    const result = jsonLogic.apply(rule);
+
+                    this.history = `${this.previousValue} ${this.getDisplayOperator(this.currentOperator)} ${this.display} =`;
+
+                    if (!isFinite(result)) {
+                        this.display = 'Error';
+                    } else {
+                        this.display = String(parseFloat(result.toPrecision(15)));
+                    }
+                    
+                    this.previousValue = this.display;
+                    this.currentOperator = null;
+                    this.waitingForOperand = true;
+                },
+
+                /**
+                 * @method clear
+                 * @description Resets the calculator to its initial state.
+                 */
+                clear() {
+                    this.display = '0';
+                    this.history = '';
+                    this.currentOperator = null;
+                    this.previousValue = null;
+                    this.waitingForOperand = false;
+                },
+
+                /**
+                 * @method toggleSign
+                 * @description Flips the sign of the current display value.
+                 */
+                toggleSign() {
+                    if (this.display === '0' || this.display === 'Error') return;
+                    this.display = String(parseFloat(this.display) * -1);
+                },
+
+                /**
+                 * @method percentage
+                 * @description Converts the current display value to a percentage.
+                 */
+                percentage() {
+                    if (this.display === 'Error') return;
+                    this.display = String(parseFloat(this.display) / 100);
+                },
+
+                /**
+                 * @method getDisplayOperator
+                 * @param {string} op - The internal operator symbol.
+                 * @description Converts internal operator symbols to display-friendly ones.
+                 */
+                getDisplayOperator(op) {
+                    const operatorMap = { '/': '÷', '*': '×', '-': '-', '+': '+' };
+                    return operatorMap[op] || '';
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .calculator-btn {
+            @apply transition-all duration-200 ease-in-out transform;
+        }
+        .calculator-btn:active {
+            @apply scale-95 shadow-inner;
+        }
+        .display {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <header class="text-center mb-8">
+      <h1 class="text-2xl md:text-4xl font-bold py-2">
+        Calculator using
+        <a href="https://jsonlogic.com" target="_blank" rel="noopener noreferrer"
+          title="Learn more about JSONLogic (opens in new tab)">JSONLogic<span class="sr-only">(opens in new
+            tab)</span></a>
+      </h1>
+      <p class="text-sm text-gray-400">
+        Written by
+        <a href="https://github.com/gneissguise" class="relative font-black"
+          data-text="Justin Greisiger Frost" target="_blank" rel="noopener noreferrer"
+          aria-label="Justin Greisiger Frost (opens in new GitHub tab)"
+          title="View Justin Greisiger Frost's profile on GitHub (opens in new tab)">
+          Justin Greisiger Frost © 2025
+          <!--
+                  Note: Using aria-label here to append "(opens in new GitHub tab)"
+                  because the link text itself is already descriptive.
+                  Alternatively, a nested sr-only span could be used if you prefer
+                  the aria-label to exactly match data-text or the visible text.
+                  For this specific case, as data-text is identical to the visible text,
+                  an aria-label is a concise way to add the new tab information.
+                -->
+        </a>
+      </p>
+    </header>
+
+    <div
+        x-data="calculator()"
+        class="w-full max-w-sm mx-auto bg-gray-200 rounded-2xl shadow-2xl p-6 border-4 border-gray-300"
+    >
+        <!-- Display Screen -->
+        <div class="bg-gray-800 text-white rounded-lg p-4 mb-6 shadow-inner">
+            <div x-text="history || '0'" class="text-right text-gray-400 text-xl h-8 truncate" title="Calculation history"></div>
+            <div x-text="display" class="display text-right text-5xl font-bold break-all h-16"></div>
+        </div>
+
+        <!-- Calculator Buttons -->
+        <div class="grid grid-cols-4 gap-4">
+            <!-- Row 1 -->
+            <button @click="clear()" class="calculator-btn bg-red-400 hover:bg-red-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">AC</button>
+            <button @click="toggleSign()" class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 rounded-lg shadow-md text-2xl">+/-</button>
+            <button @click="percentage()" class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 rounded-lg shadow-md text-2xl">%</button>
+            <button @click="operator('/')" class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">÷</button>
+
+            <!-- Row 2 -->
+            <button @click="input('7')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">7</button>
+            <button @click="input('8')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">8</button>
+            <button @click="input('9')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">9</button>
+            <button @click="operator('*')" class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">×</button>
+
+            <!-- Row 3 -->
+            <button @click="input('4')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">4</button>
+            <button @click="input('5')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">5</button>
+            <button @click="input('6')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">6</button>
+            <button @click="operator('-')" class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">-</button>
+
+            <!-- Row 4 -->
+            <button @click="input('1')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">1</button>
+            <button @click="input('2')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">2</button>
+            <button @click="input('3')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">3</button>
+            <button @click="operator('+')" class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">+</button>
+
+            <!-- Row 5 -->
+            <button @click="input('0')" class="calculator-btn col-span-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">0</button>
+            <button @click="input('.')" class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">.</button>
+            <button @click="equals()" class="calculator-btn bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">=</button>
+        </div>
+    </div>
+</body>
+</html>
