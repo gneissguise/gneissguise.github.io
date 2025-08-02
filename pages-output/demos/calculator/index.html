@@ -161,10 +161,10 @@
   </style>
 </head>
 
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-start sm:justify-center min-h-screen p-4">
 
-  <header class="text-center mb-8">
-    <h1 class="text-2xl md:text-4xl font-bold py-2 text-gray-100">
+  <header class="text-center mb-6 sm:mb-8 mt-2 sm:mt-0">
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold py-2 text-gray-100">
       Calculator using
       <a href="https://jsonlogic.com" target="_blank" rel="noopener noreferrer" class="hover:text-white"
         title="Learn more about JSONLogic (opens in new tab)">JSONLogic<span class="sr-only">(opens in new
@@ -182,56 +182,56 @@
   </header>
 
   <div x-data="calculator()" x-on:keydown.window.prevent="handleKeyPress($event)"
-    class="w-full max-w-sm mx-auto bg-gray-200 rounded-2xl shadow-2xl p-6 border-4 border-gray-300">
+    class="w-full max-w-sm mx-auto bg-gray-200 rounded-2xl shadow-2xl p-4 sm:p-6 border-4 border-gray-300">
     <div class="bg-gray-800 text-white rounded-lg p-4 mb-6 shadow-inner">
-      <div x-text="history || '0'" class="text-right text-gray-400 text-xl h-8 truncate" title="Calculation history">
-      </div>
-      <div x-text="display" class="display text-right text-5xl font-bold break-all h-16"></div>
+      <div x-text="history || '0'" class="text-right text-gray-400 text-lg sm:text-xl h-8 truncate"
+        title="Calculation history"></div>
+      <div x-text="display" class="display text-right text-4xl sm:text-5xl font-bold break-all h-16"></div>
     </div>
 
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-4 gap-2 sm:gap-4">
       <button @click="clear()"
-        class="calculator-btn bg-red-400 hover:bg-red-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">AC</button>
+        class="calculator-btn bg-red-400 hover:bg-red-500 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">AC</button>
       <button @click="toggleSign()"
-        class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 rounded-lg shadow-md text-2xl">+/-</button>
+        class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">+/-</button>
       <button @click="percentage()"
-        class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 rounded-lg shadow-md text-2xl">%</button>
+        class="calculator-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">%</button>
       <button @click="operator('/')"
-        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">÷</button>
+        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">÷</button>
 
       <button @click="input('7')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">7</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">7</button>
       <button @click="input('8')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">8</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">8</button>
       <button @click="input('9')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">9</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">9</button>
       <button @click="operator('*')"
-        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">×</button>
+        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">×</button>
 
       <button @click="input('4')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">4</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">4</button>
       <button @click="input('5')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">5</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">5</button>
       <button @click="input('6')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">6</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">6</button>
       <button @click="operator('-')"
-        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">-</button>
+        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">-</button>
 
       <button @click="input('1')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">1</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">1</button>
       <button @click="input('2')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">2</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">2</button>
       <button @click="input('3')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">3</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">3</button>
       <button @click="operator('+')"
-        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-4 rounded-lg shadow-md text-2xl">+</button>
+        class="calculator-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">+</button>
 
       <button @click="input('0')"
-        class="calculator-btn col-span-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">0</button>
+        class="calculator-btn col-span-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">0</button>
       <button @click="input('.')"
-        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">.</button>
+        class="calculator-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">.</button>
       <button @click="equals()"
-        class="calculator-btn bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-lg shadow-md text-2xl">=</button>
+        class="calculator-btn bg-green-500 hover:bg-green-600 text-white font-bold py-3 sm:py-4 rounded-lg shadow-md text-xl sm:text-2xl">=</button>
     </div>
   </div>
 </body>
